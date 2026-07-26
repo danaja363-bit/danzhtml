@@ -1,364 +1,839 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>danzstr</title>
-    <!-- Font hacker -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <style>
-        /* --- RESET & BODY --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stream Danz - Ultimate Streaming Experience</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap');
 
-        body {
-            min-height: 100vh;
-            background: #000;
-            font-family: 'Share Tech Mono', monospace;
-            color: #00ff41;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+    :root {
+      --bg-base: #050505;
+      --bg-surface: #121212;
+      --primary: #e50914; /* Netflix Red */
+      --primary-glow: rgba(229, 9, 20, 0.4);
+      --text-main: #ffffff;
+      --text-dim: #a3a3a3;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --glass: rgba(18, 18, 18, 0.85);
+    }
 
-        /* Background hacker - Matrix rain effect */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                repeating-linear-gradient(0deg, 
-                    rgba(0, 255, 65, 0.03) 0px, 
-                    rgba(0, 255, 65, 0.03) 2px, 
-                    transparent 2px, 
-                    transparent 4px),
-                radial-gradient(circle at 20% 50%, rgba(0, 255, 65, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(0, 255, 65, 0.05) 0%, transparent 50%);
-            background-color: #0a0a0a;
-            z-index: -1;
-            animation: scanline 8s linear infinite;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-        @keyframes scanline {
-            0% { background-position: 0 0, 0 0, 0 0; }
-            100% { background-position: 0 100px, 0 0, 0 0; }
-        }
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        /* Glitch text effect */
-        .glitch {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 4rem;
-            color: #00ff41;
-            text-shadow: 
-                0 0 10px #00ff41,
-                0 0 20px #00ff41,
-                0 0 40px #00ff41,
-                0 0 80px #00ff41;
-            animation: glitch 3s infinite;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-base); }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
-        @keyframes glitch {
-            0%, 100% { transform: skew(0deg, 0deg); opacity: 1; }
-            5% { transform: skew(2deg, -1deg); opacity: 0.8; text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
-            10% { transform: skew(-2deg, 1deg); opacity: 1; text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
-            15% { transform: skew(0deg, 0deg); opacity: 1; }
-        }
+    /* NAVBAR */
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      background: linear-gradient(to bottom, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.6) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 15px 4%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: #00cc33;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
-            border-right: 2px solid #00ff41;
-            white-space: nowrap;
-            overflow: hidden;
-            animation: typing 4s steps(30) 1s forwards, blink 0.8s step-end infinite;
-            width: 0;
-            text-align: center;
-        }
+    header.scrolled {
+      background: rgba(5, 5, 5, 0.95);
+      border-bottom: 1px solid var(--border-subtle);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
 
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--primary);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+    }
+    .logo span { color: var(--text-main); }
 
-        @keyframes blink {
-            50% { border-color: transparent; }
-        }
+    nav { display: flex; gap: 8px; flex-wrap: wrap; }
 
-        /* Container utama */
-        .container {
-            max-width: 900px;
-            width: 100%;
-            background: rgba(0, 10, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid #00ff41;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 
-                0 0 30px rgba(0, 255, 65, 0.2),
-                inset 0 0 30px rgba(0, 255, 65, 0.05);
-            margin-top: 20px;
-        }
+    .nav-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s;
+    }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #00ff41;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+    .nav-btn.active, .nav-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.1);
+    }
 
-        .status {
-            font-size: 0.8rem;
-            color: #00ff41;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      transition: all 0.3s;
+    }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
+    .search-box:focus-within {
+      border-color: var(--text-dim);
+      background: rgba(255, 255, 255, 0.12);
+    }
 
-        .deskripsi {
-            text-align: center;
-            opacity: 0.8;
-            margin-bottom: 20px;
-        }
+    .search-box input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      margin-right: 10px;
+      width: 180px;
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
 
-        /* Grid produk */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
+    .search-box button {
+      background: none;
+      border: none;
+      color: var(--text-main);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
 
-        .card {
-            background: rgba(0, 20, 0, 0.6);
-            border: 1px solid #00ff41;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      height: 80vh;
+      width: 100%;
+      background-size: cover;
+      background-position: center top;
+      display: flex;
+      align-items: flex-end;
+      padding: 60px 4%;
+      margin-bottom: 20px;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to top, var(--bg-base) 0%, rgba(5,5,5,0.4) 50%, rgba(5,5,5,0.8) 100%);
+    }
 
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
-            background: rgba(0, 30, 0, 0.8);
-        }
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 800px;
+    }
 
-        .card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            color: #00ff41;
-            margin-bottom: 10px;
-        }
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+      text-shadow: 2px 4px 15px rgba(0,0,0,0.9);
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
 
-        .card p {
-            font-size: 0.8rem;
-            color: #88ff88;
-            opacity: 0.8;
-        }
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text-dim);
+      margin-bottom: 25px;
+      line-height: 1.6;
+      text-shadow: 1px 2px 10px rgba(0,0,0,0.9);
+      font-weight: 400;
+    }
 
-        .card .price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #00ff41;
-            margin: 10px 0;
-        }
+    /* GRID & CARDS */
+    main { padding: 0 4% 60px; }
+    
+    .section-title {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
 
-        /* Tombol ORDER VIA WA */
-        .btn {
-            display: inline-block;
-            background: transparent;
-            border: 1px solid #00ff41;
-            color: #00ff41;
-            padding: 10px 25px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.9rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+    }
 
-        .btn:hover {
-            background: #00ff41;
-            color: #000;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
-        }
+    .movie-card {
+      background: var(--bg-surface);
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-        /* Terminal efek */
-        .terminal {
-            background: rgba(0, 0, 0, 0.9);
-            border: 1px solid #00ff41;
-            border-radius: 5px;
-            padding: 15px;
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: #00ff41;
-            max-height: 150px;
-            overflow: hidden;
-            position: relative;
-        }
+    .movie-card:hover {
+      transform: scale(1.05);
+      z-index: 2;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
 
-        .terminal::before {
-            content: '> danzstr@hacker:~$ ';
-            color: #00ff41;
-        }
+    .poster-container {
+      position: relative;
+      padding-top: 150%;
+    }
 
-        .terminal p {
-            margin: 2px 0;
-            opacity: 0.7;
-        }
+    .poster-container img {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
 
-        /* Footer */
-        .footer {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 0.7rem;
-            opacity: 0.5;
-            border-top: 1px solid rgba(0, 255, 65, 0.2);
-            padding-top: 20px;
-        }
+    .play-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
 
-        /* Audio player mini */
-        #bg-music {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 999;
-            opacity: 0.3;
-            width: 120px;
-            background: rgba(0,0,0,0.8);
-            border: 1px solid #00ff41;
-            border-radius: 30px;
-            padding: 5px 10px;
-            color: #00ff41;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    .movie-card:hover .play-overlay { opacity: 1; }
 
-        #bg-music:hover {
-            opacity: 1;
-        }
+    .play-overlay i {
+      font-size: 3rem;
+      color: var(--text-main);
+      filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+      transform: scale(0.8);
+      transition: transform 0.3s;
+    }
 
-        #bg-music audio {
-            width: 100%;
-            height: 25px;
-        }
+    .movie-card:hover .play-overlay i { transform: scale(1); }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            .glitch { font-size: 2.5rem; letter-spacing: 4px; }
-            .subtitle { font-size: 0.9rem; white-space: normal; animation: none; border-right: none; }
-            .grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    .badge-rating {
+      position: absolute;
+      top: 8px; right: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      color: #fbbf24;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* MODAL (PLAYER) */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+    }
+
+    .modal.active { display: flex; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal-content {
+      background: var(--bg-base);
+      width: 100%;
+      max-width: 1200px;
+      height: 100vh;
+      max-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    @media (min-width: 1024px) {
+      .modal { padding: 40px; }
+      .modal-content {
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(0,0,0,1);
+        border: 1px solid var(--border-subtle);
+        overflow: hidden;
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px; right: 20px;
+      font-size: 1.8rem;
+      color: #fff;
+      cursor: pointer;
+      z-index: 100;
+      background: rgba(0,0,0,0.5);
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+    }
+    .close-btn:hover { background: var(--primary); transform: rotate(90deg); }
+
+    .player-container {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #000;
+      flex-shrink: 0;
+    }
+
+    .player-container::before {
+      content: 'Memuat Engine Premium...';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--text-dim);
+      font-weight: 600;
+      z-index: 1;
+    }
+
+    .player-container iframe {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border: none;
+      z-index: 2;
+    }
+
+    .server-controls {
+      padding: 20px;
+      background: var(--bg-surface);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      overflow-y: auto;
+    }
+
+    .server-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .server-controls p {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      font-weight: 600;
+      width: 100%;
+    }
+
+    .server-btn {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-main);
+      border: 1px solid transparent;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .server-btn:hover { background: rgba(255,255,255,0.1); }
+    
+    .server-btn.active {
+      background: var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    .episodes-container {
+      display: none;
+      padding: 15px 0;
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 5px;
+    }
+    .episodes-container.active { display: block; }
+    
+    .episodes-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .season-select {
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      border: 1px solid var(--border-subtle);
+      padding: 8px 16px;
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .episode-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .ep-btn {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-dim);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .ep-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .ep-btn.active { background: var(--text-main); color: var(--bg-base); }
+
+    .loader {
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid var(--primary);
+      border-radius: 50%;
+      width: 40px; height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 40px auto;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    @media (max-width: 768px) {
+      header { flex-direction: column; padding: 15px; gap: 12px; }
+      nav { width: 100%; justify-content: center; }
+      .search-box { width: 100%; justify-content: space-between; }
+      .search-box input { width: 100%; }
+      .hero-title { font-size: 2.5rem; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- JUDUL -->
-    <h1 class="glitch">DANZSTR</h1>
-    <div class="subtitle">// SYSTEM ACCESS GRANTED</div>
+  <header id="main-header">
+    <a href="#" class="logo" onclick="switchTab('movie')">
+      <i class="fa-solid fa-play" style="color:var(--primary);"></i> Stream<span>Danz</span>
+    </a>
+    <nav>
+      <button class="nav-btn active" id="btn-movies" onclick="switchTab('movie')">Film</button>
+      <button class="nav-btn" id="btn-anime" onclick="switchTab('anime')">Anime & TV</button>
+      <button class="nav-btn" id="btn-topanime" onclick="switchTab('topanime')">Top Rating</button>
+    </nav>
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Cari judul...">
+      <button onclick="searchContent()"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+  </header>
 
-    <!-- KONTEN UTAMA -->
-    <div class="container">
+  <div class="hero" id="hero-banner" style="background-image: url('https://image.tmdb.org/t/p/original/m2zMgz46f7pA3m0p1zOaA1E1l1r.jpg');">
+    <div class="hero-content">
+      <h1 class="hero-title" id="hero-title">Memuat...</h1>
+      <p class="hero-desc" id="hero-desc">Tunggu sebentar...</p>
+    </div>
+  </div>
 
-        <!-- Header -->
-        <div class="header">
-            <span style="font-size:0.9rem;">⚡ danzstr@hacker:~$</span>
-            <span class="status">● ONLINE | 127.0.0.1</span>
+  <main>
+    <h2 class="section-title" id="section-title">Sedang Trending</h2>
+    <div class="movie-grid" id="movie-grid">
+      <div class="loader"></div>
+    </div>
+  </main>
+
+  <div class="modal" id="video-modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></span>
+      
+      <div class="player-container">
+        <!-- sandbox dihilangkan agar server premium tidak error -->
+        <iframe id="video-player" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="origin"></iframe>
+      </div>
+
+      <div class="server-controls">
+        <p><i class="fa-solid fa-server" style="color:var(--primary);"></i> Sumber Server Utama:</p>
+        <div class="server-group">
+          <!-- Nama API dibuat lebih jelas -->
+          <button class="server-btn" id="btn-sv1" onclick="changeServer(1)">AutoEmbed (Ultra)</button>
+          <button class="server-btn" id="btn-sv2" onclick="changeServer(2)">VidLink (HD)</button>
+          <button class="server-btn" id="btn-sv3" onclick="changeServer(3)">VidSrc Net</button>
+          <button class="server-btn" id="btn-sv4" onclick="changeServer(4)">Embed SU</button>
         </div>
 
-        <!-- Deskripsi -->
-        <p class="deskripsi">
-            Jasa Digital &amp; Konten Kreatif — Diproses dengan Protokol Kecepatan Tinggi.
+        <div class="episodes-container" id="episodes-box">
+          <div class="episodes-header">
+            <p><i class="fa-solid fa-list" style="color:var(--text-dim);"></i> Musim & Episode:</p>
+            <select id="season-select" class="season-select" onchange="onSeasonChange()"></select>
+          </div>
+          <div class="episode-list" id="episode-list"></div>
+        </div>
+        
+        <!-- Notifikasi untuk pengguna Acode / Local -->
+        <p style="font-size: 0.8rem; color: var(--primary); margin-top: 10px; font-weight: normal;">
+          <i class="fa-solid fa-circle-info"></i> Jika layar hitam / error, buka web ini melalui browser Chrome biasa atau hosting Vercel. Fitur preview aplikasi sering memblokir pemutaran video.
         </p>
-
-        <!-- GRID PRODUK: NOKOS WA + LOGO JB -->
-        <div class="grid">
-
-            <!-- CARD 1: NOKOS WA -->
-            <div class="card">
-                <h3>📱 NOKOS WA</h3>
-                <p>Jasa Nokos WhatsApp</p>
-                <div class="price">Rp 5.000</div>
-                <!-- GANTI NOMOR WA DI BAWAH -->
-                <a href="https://wa.me/6283184341795?text=Halo%20danzstr%2C%20saya%20mau%20order%20NOKOS%20WA" class="btn">Pesan via WA</a>
-            </div>
-
-            <!-- CARD 2: LOGO JB -->
-            <div class="card">
-                <h3>🎨 LOGO JB</h3>
-                <p>Custom Logo JB bs req</p>
-                <div class="price">Rp 5.500</div>
-                <a href="https://wa.me/6281234567890?text=Halo%20danzstr%2C%20saya%20mau%20order%20LOGO%20JB" class="btn">Pesan via WA</a>
-            </div>
-
-        </div>
-
-        <!-- TERMINAL EFEK -->
-        <div class="terminal">
-            <p>[SYSTEM] &gt; Memproses order via protokol enkripsi...</p>
-            <p>[SYSTEM] &gt; Pembayaran terverifikasi &amp; otomatis masuk antrian.</p>
-            <p>[SYSTEM] &gt; Pantau status order di dashboard.</p>
-        </div>
-
-        <!-- FOOTER -->
-        <div class="footer">
-            danzstr © 2026 — Hacker Mode Activated. 🔥
-        </div>
+      </div>
     </div>
-
-    <!-- PLAYER MUSIK (AUTO PLAY) -->
-    <div id="bg-music">
-        <span>🎵</span>
-        <audio id="player" autoplay loop>
-            <!-- GANTI LINK MP3 DI BAWAH -->
-            <source src="https://mp3tourl.com/audio/1781506638357-aa764888-9e76-4de7-b4fd-bd5960181557.mp3'" type="audio/mp3">
-            Browser lo gak support audio.
-        </audio>
     </div>
+      <script>
+    // Header Scroll Effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('main-header');
+      if (window.scrollY > 50) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    });
 
-    <script>
-        // Biar audio auto-muter (klik layar kalo di-block)
-        document.addEventListener('click', function() {
-            const audio = document.getElementById('player');
-            if (audio.paused) {
-                audio.play().catch(e => console.log('Autoplay di-block, klik layar buat muter.'));
-            }
+    const API_KEYS = [
+      '8d6d91941230817f7807d643736e8a49',
+      '04c35731a5ee918f014970082a0088b1',
+      '284243b566580f146a48a43653199859',
+      '3e6a392110bd0ceee096b02a249c5eeb',
+      '15d2ea6d0dc1d476efbcea3eba2715d3'
+    ];
+    let currentKeyIndex = 0;
+
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
+    const BACKDROP_URL = 'https://image.tmdb.org/t/p/original';
+
+    let currentTab = 'movie'; 
+    let currentVideoId = '';
+    let currentMediaType = '';
+    let currentServer = 1;
+    let currentSeason = 1;
+    let currentEpisode = 1;
+
+    window.onload = () => {
+      loadMovies();
+      document.getElementById('search-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') searchContent();
+      });
+    };
+
+    function getApiKey() {
+      return API_KEYS[currentKeyIndex];
+    }
+
+    function switchTab(type) {
+      currentTab = type;
+      document.getElementById('btn-movies').classList.toggle('active', type === 'movie');
+      document.getElementById('btn-anime').classList.toggle('active', type === 'anime');
+      document.getElementById('btn-topanime').classList.toggle('active', type === 'topanime');
+      document.getElementById('search-input').value = ''; 
+      
+      if (type === 'movie') {
+        document.getElementById('section-title').innerText = 'Film Sedang Trending';
+        loadMovies();
+      } else if (type === 'anime') {
+        document.getElementById('section-title').innerText = 'Serial & Anime Populer';
+        loadAnime();
+      } else if (type === 'topanime') {
+        document.getElementById('section-title').innerText = 'Top Rating Terbaik';
+        loadTopAnime();
+      }
+    }
+
+    async function loadMovies() {
+      const endpoint = `${BASE_URL}/trending/movie/week?language=id-ID`;
+      fetchAndRender(endpoint, 'movie');
+    }
+
+    async function loadAnime() {
+      // Lebih spesifik ke TV/Anime untuk mencegah salah panggil ID Film
+      const endpoint = `${BASE_URL}/trending/tv/week?language=id-ID`;
+      fetchAndRender(endpoint, 'tv');
+    }
+
+    async function loadTopAnime() {
+      const endpoint = `${BASE_URL}/discover/tv?with_genres=16&sort_by=vote_average.desc&vote_count.gte=100&language=id-ID`;
+      fetchAndRender(endpoint, 'tv');
+    }
+
+    async function searchContent() {
+      const query = document.getElementById('search-input').value.trim();
+      if (!query) return;
+
+      const type = currentTab === 'movie' ? 'movie' : 'tv';
+      const endpoint = `${BASE_URL}/search/${type}?query=${encodeURIComponent(query)}&language=id-ID`;
+      
+      document.getElementById('section-title').innerText = `Hasil: "${query}"`;
+      fetchAndRender(endpoint, type, false); 
+    }
+
+    async function fetchAndRender(endpoint, mediaType, updateHero = true) {
+      const grid = document.getElementById('movie-grid');
+      
+      if (currentKeyIndex === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1;"><div class="loader"></div><p style="text-align:center; color:var(--text-dim); margin-top:10px;">Menyinkronkan Database...</p></div>';
+      }
+
+      const url = endpoint.includes('?') ? `${endpoint}&api_key=${getApiKey()}` : `${endpoint}?api_key=${getApiKey()}`;
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.success === false || data.status_code === 7) {
+          currentKeyIndex++;
+          if (currentKeyIndex < API_KEYS.length) {
+            return fetchAndRender(endpoint, mediaType, updateHero); 
+          } else {
+            grid.innerHTML = `<div style="text-align:center; grid-column:1/-1; padding:40px;"><h3>Koneksi API Penuh</h3><button onclick="currentKeyIndex=0; switchTab(currentTab)" style="padding:10px 20px; margin-top:15px; border-radius:8px; cursor:pointer;">Muat Ulang</button></div>`;
+            return;
+          }
+        }
+
+        currentKeyIndex = 0;
+
+        if (!data.results || data.results.length === 0) {
+          grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; font-size: 1.1rem; color:var(--text-dim);">Data tidak ditemukan.</p>';
+          return;
+        }
+
+        if (updateHero && data.results.length > 0) {
+          const heroItem = data.results[0];
+          if (heroItem.backdrop_path) {
+            document.getElementById('hero-banner').style.backgroundImage = `url('${BACKDROP_URL}${heroItem.backdrop_path}')`;
+          }
+          document.getElementById('hero-title').innerText = heroItem.title || heroItem.name;
+          document.getElementById('hero-desc').innerText = heroItem.overview ? heroItem.overview.substring(0, 180) + "..." : "Nikmati pengalaman menonton premium tanpa batas bersama Stream Danz.";
+        }
+
+        grid.innerHTML = ''; 
+        
+        data.results.forEach(item => {
+          const title = item.title || item.name;
+          const date = item.release_date || item.first_air_date || 'N/A';
+          const poster = item.poster_path ? `${IMAGE_URL}${item.poster_path}` : 'https://via.placeholder.com/500x750?text=No+Poster';
+          const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
+          
+          // Mengunci secara paksa Tipe Media agar API Server tidak kebingungan
+          let forcedMediaType = mediaType;
+          if (currentTab === 'anime' || currentTab === 'topanime') {
+            forcedMediaType = 'tv';
+          } else if (currentTab === 'movie') {
+            forcedMediaType = 'movie';
+          } else {
+            forcedMediaType = item.title ? 'movie' : 'tv';
+          }
+
+          const card = document.createElement('div');
+          card.className = 'movie-card';
+          card.onclick = () => openPlayer(item.id, forcedMediaType);
+
+          card.innerHTML = `
+            <div class="poster-container">
+              <img src="${poster}" alt="${title}" loading="lazy">
+              <div class="play-overlay"><i class="fa-solid fa-circle-play"></i></div>
+              <div class="badge-rating"><i class="fa-solid fa-star" style="font-size:0.7rem;"></i> ${rating}</div>
+            </div>
+            <div class="movie-info">
+              <div class="movie-title">${title}</div>
+              <div class="movie-date">${date.split('-')[0]}</div>
+            </div>
+          `;
+          grid.appendChild(card);
         });
+      } catch (error) {
+        console.error("Fetch Error:", error);
+        grid.innerHTML = `<div style="text-align:center; grid-column:1/-1;"><p style="color:var(--text-dim);">Gagal terhubung ke server data.</p></div>`;
+      }
+    }
 
-        // Console hacker buat gaya
-        console.log('%c🔥 danzstr Hacker Mode Activated 🔥', 'color: #00ff41; font-size: 20px; font-weight: bold;');
-        console.log('%c➤ Semua sistem siap dijalankan.', 'color: #88ff88;');
-        console.log('%c➤ Jangan lupa ganti nomor WA dan link lagu!', 'color: #ffaa00;');
-    </script>
+    async function openPlayer(tmdbId, mediaType) {
+      currentVideoId = tmdbId;
+      currentMediaType = mediaType;
+      currentSeason = 1;
+      currentEpisode = 1;
+      
+      const modal = document.getElementById('video-modal');
+      const episodesBox = document.getElementById('episodes-box');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Kunci scroll layar utama
 
+      if (mediaType === 'tv') {
+        episodesBox.classList.add('active');
+        await fetchTVDetails(tmdbId);
+      } else {
+        episodesBox.classList.remove('active');
+        updateStreamUrl();
+      }
+      
+      changeServer(currentServer);
+    }
+
+    async function fetchTVDetails(id) {
+      const episodesBox = document.getElementById('episodes-box');
+      const epListContainer = document.getElementById('episode-list');
+      epListContainer.innerHTML = '<span style="color:var(--text-dim); font-size:0.9rem;">Menarik data episode...</span>';
+
+      try {
+        const res = await fetch(`${BASE_URL}/tv/${id}?api_key=${getApiKey()}&language=id-ID`);
+        const showDetailsData = await res.json();
+        
+        if (!showDetailsData.seasons || showDetailsData.seasons.length === 0 || showDetailsData.success === false) {
+          currentMediaType = 'movie'; // Fallback otomatis jika data TV cacat
+          episodesBox.classList.remove('active');
+          updateStreamUrl();
+          return;
+        }
+
+        const seasonSelect = document.getElementById('season-select');
+        seasonSelect.innerHTML = '';
+
+        let validSeasons = showDetailsData.seasons.filter(s => s.season_number >= 1 && s.episode_count > 0);
+        
+        if (validSeasons.length === 0) {
+          currentMediaType = 'movie';
+          episodesBox.classList.remove('active');
+          updateStreamUrl();
+          return;
+        }
+
+        validSeasons.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.season_number;
+          opt.innerText = `Season ${s.season_number} (${s.episode_count} Eps)`;
+          seasonSelect.appendChild(opt);
+        });
+        
+        currentSeason = parseInt(seasonSelect.value);
+        await loadEpisodesList(id, currentSeason);
+
+      } catch (e) {
+        currentMediaType = 'movie';
+        episodesBox.classList.remove('active');
+        updateStreamUrl();
+      }
+    }
+
+    function onSeasonChange() {
+      const seasonSelect = document.getElementById('season-select');
+      currentSeason = parseInt(seasonSelect.value);
+      currentEpisode = 1;
+      loadEpisodesList(currentVideoId, currentSeason);
+    }
+
+    async function loadEpisodesList(id, seasonNum) {
+      const epListContainer = document.getElementById('episode-list');
+      epListContainer.innerHTML = '<span style="color:var(--text-dim); font-size:0.9rem;">Menarik data episode...</span>';
+
+      try {
+        const res = await fetch(`${BASE_URL}/tv/${id}/season/${seasonNum}?api_key=${getApiKey()}&language=id-ID`);
+        const seasonData = await res.json();
+        epListContainer.innerHTML = '';
+
+        if (seasonData.episodes && seasonData.episodes.length > 0) {
+          seasonData.episodes.forEach(ep => {
+            const btn = document.createElement('button');
+            btn.className = `ep-btn ${ep.episode_number === currentEpisode ? 'active' : ''}`;
+            btn.innerText = `${ep.episode_number}`;
+            btn.title = ep.name || `Eps ${ep.episode_number}`;
+            btn.onclick = () => selectEpisode(ep.episode_number);
+            epListContainer.appendChild(btn);
+          });
+          updateStreamUrl();
+        } else {
+          epListContainer.innerHTML = '<span style="color:var(--text-dim); font-size:0.9rem;">Episode kosong.</span>';
+          updateStreamUrl();
+        }
+      } catch (e) {
+        epListContainer.innerHTML = '<span style="color:var(--primary); font-size:0.9rem;">Gagal memuat.</span>';
+        updateStreamUrl();
+      }
+    }
+
+    function selectEpisode(epNum) {
+      currentEpisode = epNum;
+      
+      const buttons = document.querySelectorAll('.ep-btn');
+      buttons.forEach(btn => {
+        if (parseInt(btn.innerText) === epNum) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+
+      updateStreamUrl();
+    }
+
+    function changeServer(serverNumber) {
+      currentServer = serverNumber;
+      for(let i=1; i<=4; i++) {
+        document.getElementById(`btn-sv${i}`).classList.remove('active');
+      }
+      document.getElementById(`btn-sv${serverNumber}`).classList.add('active');
+      updateStreamUrl();
+    }
+
+    function updateStreamUrl() {
+      const player = document.getElementById('video-player');
+      let embedUrl = '';
+
+      /*
+       * API SERVER GACOR TERBARU - Sangat Keras Anti Mismatch
+       * Semua secara eksplisit mendeklarasikan tipe: movie atau tv
+       */
+      if (currentMediaType === 'movie') {
+        if (currentServer === 1) embedUrl = `https://player.autoembed.cc/embed/movie/${currentVideoId}`;
+        if (currentServer === 2) embedUrl = `https://vidlink.pro/movie/${currentVideoId}`;
+        if (currentServer === 3) embedUrl = `https://vidsrc.net/embed/movie?tmdb=${currentVideoId}`;
+        if (currentServer === 4) embedUrl = `https://embed.su/embed/movie/${currentVideoId}`;
+      } else {
+        if (currentServer === 1) embedUrl = `https://player.autoembed.cc/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
+        if (currentServer === 2) embedUrl = `https://vidlink.pro/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
+        if (currentServer === 3) embedUrl = `https://vidsrc.net/embed/tv?tmdb=${currentVideoId}&season=${currentSeason}&episode=${currentEpisode}`;
+        if (currentServer === 4) embedUrl = `https://embed.su/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
+      }
+
+      player.src = embedUrl;
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('video-modal');
+      const player = document.getElementById('video-player');
+      player.src = ''; 
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto'; // Kembalikan scroll
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('video-modal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
 </body>
 </html>

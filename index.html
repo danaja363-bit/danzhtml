@@ -479,17 +479,17 @@
       <span class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></span>
       
       <div class="player-container">
-        <!-- sandbox dihilangkan agar server premium tidak error -->
-        <iframe id="video-player" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="origin"></iframe>
+        <!-- Menggunakan referrerpolicy="no-referrer" untuk bypass blokir GitHub Pages -->
+        <iframe id="video-player" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="no-referrer"></iframe>
       </div>
 
       <div class="server-controls">
         <p><i class="fa-solid fa-server" style="color:var(--primary);"></i> Sumber Server Utama:</p>
         <div class="server-group">
-          <!-- Nama API dibuat lebih jelas -->
+          <!-- Server List Diperbarui -->
           <button class="server-btn" id="btn-sv1" onclick="changeServer(1)">AutoEmbed (Ultra)</button>
           <button class="server-btn" id="btn-sv2" onclick="changeServer(2)">VidLink (HD)</button>
-          <button class="server-btn" id="btn-sv3" onclick="changeServer(3)">VidSrc Net</button>
+          <button class="server-btn" id="btn-sv3" onclick="changeServer(3)">VidSrc Me</button>
           <button class="server-btn" id="btn-sv4" onclick="changeServer(4)">Embed SU</button>
         </div>
 
@@ -501,14 +501,13 @@
           <div class="episode-list" id="episode-list"></div>
         </div>
         
-        <!-- Notifikasi untuk pengguna Acode / Local -->
         <p style="font-size: 0.8rem; color: var(--primary); margin-top: 10px; font-weight: normal;">
-          <i class="fa-solid fa-circle-info"></i> Jika layar hitam / error, buka web ini melalui browser Chrome biasa atau hosting Vercel. Fitur preview aplikasi sering memblokir pemutaran video.
+          <i class="fa-solid fa-circle-info"></i> Pastikan buka web ini lewat browser biasa.
         </p>
       </div>
     </div>
-    </div>
-      <script>
+  </div>
+    <script>
     // Header Scroll Effect
     window.addEventListener('scroll', () => {
       const header = document.getElementById('main-header');
@@ -572,7 +571,6 @@
     }
 
     async function loadAnime() {
-      // Lebih spesifik ke TV/Anime untuk mencegah salah panggil ID Film
       const endpoint = `${BASE_URL}/trending/tv/week?language=id-ID`;
       fetchAndRender(endpoint, 'tv');
     }
@@ -640,7 +638,6 @@
           const poster = item.poster_path ? `${IMAGE_URL}${item.poster_path}` : 'https://via.placeholder.com/500x750?text=No+Poster';
           const rating = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
           
-          // Mengunci secara paksa Tipe Media agar API Server tidak kebingungan
           let forcedMediaType = mediaType;
           if (currentTab === 'anime' || currentTab === 'topanime') {
             forcedMediaType = 'tv';
@@ -682,7 +679,7 @@
       const modal = document.getElementById('video-modal');
       const episodesBox = document.getElementById('episodes-box');
       modal.classList.add('active');
-      document.body.style.overflow = 'hidden'; // Kunci scroll layar utama
+      document.body.style.overflow = 'hidden'; 
 
       if (mediaType === 'tv') {
         episodesBox.classList.add('active');
@@ -705,7 +702,7 @@
         const showDetailsData = await res.json();
         
         if (!showDetailsData.seasons || showDetailsData.seasons.length === 0 || showDetailsData.success === false) {
-          currentMediaType = 'movie'; // Fallback otomatis jika data TV cacat
+          currentMediaType = 'movie'; 
           episodesBox.classList.remove('active');
           updateStreamUrl();
           return;
@@ -801,19 +798,15 @@
       const player = document.getElementById('video-player');
       let embedUrl = '';
 
-      /*
-       * API SERVER GACOR TERBARU - Sangat Keras Anti Mismatch
-       * Semua secara eksplisit mendeklarasikan tipe: movie atau tv
-       */
       if (currentMediaType === 'movie') {
         if (currentServer === 1) embedUrl = `https://player.autoembed.cc/embed/movie/${currentVideoId}`;
         if (currentServer === 2) embedUrl = `https://vidlink.pro/movie/${currentVideoId}`;
-        if (currentServer === 3) embedUrl = `https://vidsrc.net/embed/movie?tmdb=${currentVideoId}`;
+        if (currentServer === 3) embedUrl = `https://vidsrc.me/embed/movie?tmdb=${currentVideoId}`;
         if (currentServer === 4) embedUrl = `https://embed.su/embed/movie/${currentVideoId}`;
       } else {
         if (currentServer === 1) embedUrl = `https://player.autoembed.cc/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
         if (currentServer === 2) embedUrl = `https://vidlink.pro/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
-        if (currentServer === 3) embedUrl = `https://vidsrc.net/embed/tv?tmdb=${currentVideoId}&season=${currentSeason}&episode=${currentEpisode}`;
+        if (currentServer === 3) embedUrl = `https://vidsrc.me/embed/tv?tmdb=${currentVideoId}&season=${currentSeason}&episode=${currentEpisode}`;
         if (currentServer === 4) embedUrl = `https://embed.su/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
       }
 
@@ -825,7 +818,7 @@
       const player = document.getElementById('video-player');
       player.src = ''; 
       modal.classList.remove('active');
-      document.body.style.overflow = 'auto'; // Kembalikan scroll
+      document.body.style.overflow = 'auto'; 
     }
 
     window.onclick = function(event) {

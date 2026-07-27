@@ -3,126 +3,126 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stream Danz - Platform Streaming Premium</title>
+  <title>Stream Danz - Ultimate Streaming Experience</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
 
     :root {
       --bg-color: #030712;
-      --card-bg: #111827;
-      --primary: #3b82f6;
-      --primary-hover: #2563eb;
-      --accent: #10b981;
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --border-color: rgba(255, 255, 255, 0.1);
+      --card-bg: #0f172a;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --glass-bg: rgba(15, 23, 42, 0.8);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
 
-    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg-color); }
-    ::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
-    /* Header & Nav */
+    /* Header */
     header {
       position: fixed; width: 100%; top: 0; z-index: 1000;
       background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
       padding: 16px 5%; display: flex; justify-content: space-between; align-items: center;
-      border-bottom: 1px solid transparent; transition: 0.3s;
+      border-bottom: 1px solid var(--border-color); transition: 0.3s;
     }
-    header.scrolled { border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 30px rgba(0,0,0,0.8); }
-    .logo { font-size: 1.6rem; font-weight: 900; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .logo { font-size: 1.6rem; font-weight: 800; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px; }
     .logo i { color: var(--primary); }
-    nav { display: flex; gap: 10px; flex-wrap: wrap; }
-    .nav-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.9rem; font-weight: 600; cursor: pointer; padding: 8px 18px; border-radius: 20px; transition: 0.3s; }
-    .nav-btn.active, .nav-btn:hover { color: #fff; background: var(--primary); border-color: var(--primary); }
+    nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem; font-weight: 600; cursor: pointer; padding: 8px 18px; border-radius: 20px; transition: 0.3s; }
+    .nav-btn.active, .nav-btn:hover { color: #fff; background: var(--primary); border-color: var(--primary); box-shadow: 0 0 15px rgba(37, 99, 235, 0.4); }
     
     /* Search */
     .search-box { display: flex; align-items: center; background: rgba(255, 255, 255, 0.05); padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border-color); }
-    .search-box:focus-within { border-color: var(--primary); background: rgba(255, 255, 255, 0.1); }
-    .search-box input { background: transparent; border: none; outline: none; color: #fff; margin-right: 10px; width: 160px; font-size: 0.9rem; }
-    .search-box button { background: none; border: none; color: var(--primary); cursor: pointer; font-size: 1.1rem; }
+    .search-box:focus-within { border-color: var(--primary); background: rgba(255, 255, 255, 0.08); }
+    .search-box input { background: transparent; border: none; outline: none; color: #fff; margin-right: 10px; width: 150px; font-size: 0.85rem; }
+    .search-box button { background: none; border: none; color: var(--primary); cursor: pointer; font-size: 1rem; }
 
     /* Hero */
-    .hero { position: relative; height: 75vh; width: 100%; background-size: cover; background-position: center top; display: flex; align-items: flex-end; padding: 60px 5%; margin-bottom: 30px; }
-    .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, var(--bg-color) 0%, rgba(3,7,18,0.3) 50%, rgba(3,7,18,0.8) 100%); }
+    .hero { position: relative; height: 70vh; width: 100%; background-size: cover; background-position: center top; display: flex; align-items: flex-end; padding: 60px 5%; margin-bottom: 25px; }
+    .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, var(--bg-color) 0%, rgba(3,7,18,0.4) 50%, rgba(3,7,18,0.85) 100%); }
     .hero-content { position: relative; z-index: 10; max-width: 700px; }
-    .hero-title { font-size: 3rem; font-weight: 900; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
-    .hero-desc { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; text-shadow: 1px 1px 5px rgba(0,0,0,0.8); }
+    .hero-title { font-size: 2.8rem; font-weight: 800; margin-bottom: 10px; text-shadow: 0 4px 15px rgba(0,0,0,0.8); line-height: 1.1; }
+    .hero-desc { font-size: 1rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
 
-    /* Grid */
+    /* Grid & Card */
     main { padding: 0 5% 60px; }
-    .section-title { font-size: 1.4rem; margin-bottom: 20px; font-weight: 700; border-left: 4px solid var(--primary); padding-left: 12px; }
-    .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+    .section-title { font-size: 1.3rem; margin-bottom: 20px; font-weight: 700; border-left: 4px solid var(--primary); padding-left: 12px; }
+    .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 18px; }
     .movie-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; cursor: pointer; position: relative; border: 1px solid var(--border-color); transition: 0.3s; }
-    .movie-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.6); z-index: 2; }
+    .movie-card:hover { transform: translateY(-6px); border-color: rgba(37, 99, 235, 0.5); box-shadow: 0 12px 30px rgba(0,0,0,0.7); z-index: 2; }
     .poster-container { position: relative; padding-top: 150%; }
     .poster-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
     
-    .play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; }
+    .play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.6); backdrop-filter: blur(2px); display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; }
     .movie-card:hover .play-overlay { opacity: 1; }
-    .play-overlay i { font-size: 3.5rem; color: var(--primary); transform: scale(0.8); transition: 0.3s; }
+    .play-overlay i { font-size: 3rem; color: var(--primary); transform: scale(0.8); transition: 0.3s; }
     .movie-card:hover .play-overlay i { transform: scale(1); }
     
-    .badge-rating { position: absolute; top: 10px; right: 10px; background: rgba(0, 0, 0, 0.8); color: #fbbf24; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+    .badge-rating { position: absolute; top: 8px; right: 8px; background: rgba(3, 7, 18, 0.85); color: var(--accent); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(245, 158, 11, 0.2); }
     .movie-info { padding: 12px; }
-    .movie-title { font-size: 1rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+    .movie-title { font-size: 0.95rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
     .movie-date { font-size: 0.8rem; color: var(--text-muted); }
 
     /* Modal Player */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 9999; justify-content: center; align-items: center; padding: 0; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.95); z-index: 9999; justify-content: center; align-items: center; padding: 0; }
     .modal.active { display: flex; animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     
     .modal-content { background: var(--bg-color); width: 100%; max-width: 1100px; height: 100vh; max-height: 100vh; display: flex; flex-direction: column; position: relative; }
-    @media (min-width: 1024px) { .modal { padding: 30px; } .modal-content { height: auto; border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; } }
+    @media (min-width: 1024px) { .modal { padding: 20px; } .modal-content { height: auto; border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.9); } }
 
-    .close-btn { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; color: #fff; cursor: pointer; z-index: 100; background: rgba(255,255,255,0.1); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+    .close-btn { position: absolute; top: 15px; right: 15px; font-size: 1.4rem; color: #fff; cursor: pointer; z-index: 100; background: rgba(255,255,255,0.1); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
     .close-btn:hover { background: #ef4444; }
 
     .player-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; flex-shrink: 0; }
-    .player-container::before { content: 'Menghubungkan ke Server Premium...'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--text-muted); font-weight: 600; z-index: 1; }
+    .player-container::before { content: 'Menghubungkan Server Video...'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--text-muted); font-weight: 600; font-size: 0.95rem; z-index: 1; }
     
     .player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 2; background: transparent; }
 
-    .server-controls { padding: 20px; background: var(--card-bg); display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
-    .server-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .server-controls p { font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
+    .server-controls { padding: 18px 20px; background: var(--card-bg); display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+    .server-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .server-controls p { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
     
-    .server-btn { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--border-color); padding: 10px 18px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: 0.3s; }
-    .server-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
-    .server-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .server-btn { background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: 0.3s; }
+    .server-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .server-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 0 12px rgba(37, 99, 235, 0.4); }
 
-    .episodes-container { display: none; padding: 15px 0; border-top: 1px solid var(--border-color); margin-top: 5px; }
+    .episodes-container { display: none; padding: 12px 0; border-top: 1px solid var(--border-color); margin-top: 4px; }
     .episodes-container.active { display: block; }
-    .episodes-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 15px; flex-wrap: wrap; }
-    .season-select { background: #1f2937; color: #fff; border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 6px; outline: none; cursor: pointer; font-weight: 600; }
-    .episode-list { display: flex; flex-wrap: wrap; gap: 8px; max-height: 180px; overflow-y: auto; }
-    .ep-btn { background: #1f2937; color: var(--text-muted); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: 0.2s; }
-    .ep-btn:hover { color: #fff; background: #374151; }
-    .ep-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .episodes-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 12px; flex-wrap: wrap; }
+    .season-select { background: #1e293b; color: #fff; border: 1px solid var(--border-color); padding: 8px 14px; border-radius: 6px; outline: none; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+    .episode-list { display: flex; flex-wrap: wrap; gap: 8px; max-height: 160px; overflow-y: auto; }
+    .ep-btn { background: #1e293b; color: var(--text-muted); border: 1px solid var(--border-color); padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: 0.2s; }
+    .ep-btn:hover { color: #fff; background: #334155; }
+    .ep-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-    .loader { border: 3px solid rgba(255, 255, 255, 0.1); border-top: 3px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 40px auto; }
+    .loader { border: 3px solid rgba(255, 255, 255, 0.1); border-top: 3px solid var(--primary); border-radius: 50%; width: 38px; height: 38px; animation: spin 1s linear infinite; margin: 40px auto; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    @media (max-width: 768px) { header { flex-direction: column; padding: 15px; gap: 12px; } nav { width: 100%; justify-content: center; } .search-box { width: 100%; justify-content: space-between; } .hero-title { font-size: 2.2rem; } }
+    @media (max-width: 768px) { header { flex-direction: column; padding: 12px; gap: 10px; } nav { width: 100%; justify-content: center; } .search-box { width: 100%; justify-content: space-between; } .hero-title { font-size: 2.1rem; } }
   </style>
 </head>
 <body>
 
   <header id="main-header">
-    <a href="#" class="logo" onclick="switchTab('movie')"><i class="fa-solid fa-film"></i> StreamDanz</a>
+    <a href="#" class="logo" onclick="switchTab('movie')"><i class="fa-solid fa-play"></i> StreamDanz</a>
     <nav>
-      <button class="nav-btn active" id="btn-movies" onclick="switchTab('movie')">Movies</button>
+      <button class="nav-btn active" id="btn-movies" onclick="switchTab('movie')">Film</button>
       <button class="nav-btn" id="btn-anime" onclick="switchTab('anime')">TV & Anime</button>
-      <button class="nav-btn" id="btn-topanime" onclick="switchTab('topanime')">Top Rated</button>
+      <button class="nav-btn" id="btn-topanime" onclick="switchTab('topanime')">Top Anime</button>
     </nav>
     <div class="search-box">
-      <input type="text" id="search-input" placeholder="Cari judul...">
-      <button onclick="searchContent()"><i class="fa-solid fa-search"></i></button>
+      <input type="text" id="search-input" placeholder="Cari film / anime...">
+      <button onclick="searchContent()"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
   </header>
 
@@ -134,7 +134,7 @@
   </div>
 
   <main>
-    <h2 class="section-title" id="section-title">Trending Saat Ini</h2>
+    <h2 class="section-title" id="section-title">Film Sedang Trending</h2>
     <div class="movie-grid" id="movie-grid"><div class="loader"></div></div>
   </main>
 
@@ -143,36 +143,34 @@
       <span class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></span>
       
       <div class="player-container">
-        <!-- API Security Bypass -->
+        <!-- Referrer Policy 'no-referrer' wajib ada untuk bypass blokir domain -->
         <iframe id="video-player" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="no-referrer"></iframe>
       </div>
 
       <div class="server-controls">
-        <p><i class="fa-solid fa-server" style="color:var(--primary);"></i> Pilih Server (Tahan Banting):</p>
+        <p><i class="fa-solid fa-server" style="color:var(--primary);"></i> Pilih Server Pemutar:</p>
         <div class="server-group">
-          <!-- MultiEmbed dibuang, Embed.su dinaikkan jadi Server 1 -->
+          <!-- Server Baru Tanpa Landing Page Iklan -->
           <button class="server-btn" id="btn-sv1" onclick="changeServer(1)">Server 1 (Embed.su)</button>
-          <button class="server-btn" id="btn-sv2" onclick="changeServer(2)">Server 2 (VidSrc Net)</button>
-          <button class="server-btn" id="btn-sv3" onclick="changeServer(3)">Server 3 (VidSrc IN)</button>
+          <button class="server-btn" id="btn-sv2" onclick="changeServer(2)">Server 2 (VidSrc.to)</button>
+          <button class="server-btn" id="btn-sv3" onclick="changeServer(3)">Server 3 (VidSrc.vip)</button>
           <button class="server-btn" id="btn-sv4" onclick="changeServer(4)">Server 4 (AutoEmbed)</button>
         </div>
 
         <div class="episodes-container" id="episodes-box">
           <div class="episodes-header">
-            <p><i class="fa-solid fa-list"></i> Musim & Episode:</p>
+            <p><i class="fa-solid fa-list-ol"></i> Season & Episode:</p>
             <select id="season-select" class="season-select" onchange="onSeasonChange()"></select>
           </div>
           <div class="episode-list" id="episode-list"></div>
         </div>
       </div>
     </div>
-  </div>
-    <script>
-    // Header Blur Effect
+      <script>
     window.addEventListener('scroll', () => {
       const header = document.getElementById('main-header');
-      if (window.scrollY > 50) header.classList.add('scrolled');
-      else header.classList.remove('scrolled');
+      if (window.scrollY > 40) header.style.background = 'rgba(3, 7, 18, 0.95)';
+      else header.style.background = 'rgba(3, 7, 18, 0.85)';
     });
 
     const API_KEYS = [
@@ -212,18 +210,18 @@
       
       if (type === 'movie') { document.getElementById('section-title').innerText = 'Film Sedang Trending'; loadMovies(); } 
       else if (type === 'anime') { document.getElementById('section-title').innerText = 'Serial & Anime Populer'; loadAnime(); } 
-      else if (type === 'topanime') { document.getElementById('section-title').innerText = 'Top Rating Terbaik'; loadTopAnime(); }
+      else if (type === 'topanime') { document.getElementById('section-title').innerText = 'Top Rating Anime Terbaik'; loadTopAnime(); }
     }
 
     async function loadMovies() { fetchAndRender(`${BASE_URL}/trending/movie/week?language=id-ID`, 'movie'); }
     async function loadAnime() { fetchAndRender(`${BASE_URL}/trending/tv/week?language=id-ID`, 'tv'); }
-    async function loadTopAnime() { fetchAndRender(`${BASE_URL}/discover/tv?with_genres=16&sort_by=vote_average.desc&vote_count.gte=100&language=id-ID`, 'tv'); }
+    async function loadTopAnime() { fetchAndRender(`${BASE_URL}/discover/tv?with_genres=16&sort_by=vote_average.desc&vote_count.gte=50&language=id-ID`, 'tv'); }
 
     async function searchContent() {
       const query = document.getElementById('search-input').value.trim();
       if (!query) return;
       const type = currentTab === 'movie' ? 'movie' : 'tv';
-      document.getElementById('section-title').innerText = `Hasil: "${query}"`;
+      document.getElementById('section-title').innerText = `Hasil Pencarian: "${query}"`;
       fetchAndRender(`${BASE_URL}/search/${type}?query=${encodeURIComponent(query)}&language=id-ID`, type, false); 
     }
 
@@ -239,17 +237,17 @@
         if (data.success === false || data.status_code === 7) {
           currentKeyIndex++;
           if (currentKeyIndex < API_KEYS.length) return fetchAndRender(endpoint, mediaType, updateHero); 
-          else { grid.innerHTML = `<div style="text-align:center; grid-column:1/-1;"><h3>API Penuh</h3><button onclick="currentKeyIndex=0; switchTab(currentTab)">Muat Ulang</button></div>`; return; }
+          else { grid.innerHTML = `<div style="text-align:center; grid-column:1/-1;"><h3>Gagal Memuat API</h3><button onclick="currentKeyIndex=0; switchTab(currentTab)">Coba Lagi</button></div>`; return; }
         }
         currentKeyIndex = 0;
 
-        if (!data.results || data.results.length === 0) { grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--text-muted);">Data tidak ditemukan.</p>'; return; }
+        if (!data.results || data.results.length === 0) { grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--text-muted);">Konten tidak ditemukan.</p>'; return; }
 
         if (updateHero && data.results.length > 0) {
           const heroItem = data.results[0];
           if (heroItem.backdrop_path) document.getElementById('hero-banner').style.backgroundImage = `url('${BACKDROP_URL}${heroItem.backdrop_path}')`;
           document.getElementById('hero-title').innerText = heroItem.title || heroItem.name;
-          document.getElementById('hero-desc').innerText = heroItem.overview ? heroItem.overview.substring(0, 150) + "..." : "Streaming premium tanpa batas.";
+          document.getElementById('hero-desc').innerText = heroItem.overview ? heroItem.overview.substring(0, 150) + "..." : "Selamat datang di Stream Danz.";
         }
 
         grid.innerHTML = ''; 
@@ -271,12 +269,12 @@
           card.innerHTML = `
             <div class="poster-container"><img src="${poster}" alt="${title}" loading="lazy">
               <div class="play-overlay"><i class="fa-solid fa-circle-play"></i></div>
-              <div class="badge-rating"><i class="fa-solid fa-star" style="font-size:0.7rem;"></i> ${rating}</div>
+              <div class="badge-rating"><i class="fa-solid fa-star"></i> ${rating}</div>
             </div>
             <div class="movie-info"><div class="movie-title">${title}</div><div class="movie-date">${date.split('-')[0]}</div></div>`;
           grid.appendChild(card);
         });
-      } catch (error) { grid.innerHTML = `<div style="text-align:center; grid-column:1/-1;"><p style="color:var(--text-muted);">Gagal terhubung ke server.</p></div>`; }
+      } catch (error) { grid.innerHTML = `<div style="text-align:center; grid-column:1/-1;"><p style="color:var(--text-muted);">Gagal terhubung ke jaringan.</p></div>`; }
     }
 
     async function openPlayerModals(tmdbId, mediaType) {
@@ -303,7 +301,7 @@
     async function fetchTVDetails(id) {
       const episodesBox = document.getElementById('episodes-box');
       const epListContainer = document.getElementById('episode-list');
-      epListContainer.innerHTML = '<span style="color:var(--text-muted); font-size:0.9rem;">Menarik data episode...</span>';
+      epListContainer.innerHTML = '<span style="color:var(--text-muted); font-size:0.85rem;">Memuat daftar episode...</span>';
 
       try {
         const res = await fetch(`${BASE_URL}/tv/${id}?api_key=${getApiKey()}&language=id-ID`);
@@ -330,7 +328,7 @@
         validSeasons.forEach(s => {
           const opt = document.createElement('option');
           opt.value = s.season_number;
-          opt.innerText = `Season ${s.season_number} (${s.episode_count} Eps)`;
+          opt.innerText = `Season ${s.season_number} (${s.episode_count} Ep)`;
           seasonSelect.appendChild(opt);
         });
         
@@ -352,7 +350,7 @@
 
     async function loadEpisodesList(id, seasonNum) {
       const epListContainer = document.getElementById('episode-list');
-      epListContainer.innerHTML = '<span style="color:var(--text-muted); font-size:0.9rem;">Menarik data episode...</span>';
+      epListContainer.innerHTML = '<span style="color:var(--text-muted); font-size:0.85rem;">Memuat episode...</span>';
 
       try {
         const res = await fetch(`${BASE_URL}/tv/${id}/season/${seasonNum}?api_key=${getApiKey()}&language=id-ID`);
@@ -363,18 +361,18 @@
           seasonData.episodes.forEach(ep => {
             const btn = document.createElement('button');
             btn.className = `ep-btn ${ep.episode_number === currentEpisode ? 'active' : ''}`;
-            btn.innerText = `${ep.episode_number}`;
-            btn.title = ep.name || `Eps ${ep.episode_number}`;
+            btn.innerText = `Ep ${ep.episode_number}`;
+            btn.title = ep.name || `Episode ${ep.episode_number}`;
             btn.onclick = () => selectEpisode(ep.episode_number);
             epListContainer.appendChild(btn);
           });
           updateStreamUrl();
         } else {
-          epListContainer.innerHTML = '<span style="color:var(--text-muted); font-size:0.9rem;">Episode kosong.</span>';
+          epListContainer.innerHTML = '<span style="color:var(--text-muted); font-size:0.85rem;">Episode belum tersedia.</span>';
           updateStreamUrl();
         }
       } catch (e) {
-        epListContainer.innerHTML = '<span style="color:#ef4444; font-size:0.9rem;">Gagal memuat episode.</span>';
+        epListContainer.innerHTML = '<span style="color:#ef4444; font-size:0.85rem;">Gagal memuat.</span>';
         updateStreamUrl();
       }
     }
@@ -383,7 +381,7 @@
       currentEpisode = epNum;
       const buttons = document.querySelectorAll('.ep-btn');
       buttons.forEach(btn => {
-        if (parseInt(btn.innerText) === epNum) btn.classList.add('active');
+        if (btn.innerText === `Ep ${epNum}`) btn.classList.add('active');
         else btn.classList.remove('active');
       });
       updateStreamUrl();
@@ -403,18 +401,18 @@
       let embedUrl = '';
       
       /* 
-       * ENDPOINT MURNI PALING STABIL 2026
-       * Embed.su kini menjadi Server 1 karena paling andal tanpa error 404
+       * ENDPOINT MURNI DIRECT BEBAS LANDING PAGE
+       * Vidsrc.to & Vidsrc.vip langsung mengarahkan ke video player tanpa memunculkan landing promo!
        */
       if (currentMediaType === 'movie') {
         if (currentServer === 1) embedUrl = `https://embed.su/embed/movie/${currentVideoId}`;
-        if (currentServer === 2) embedUrl = `https://vidsrc.net/embed/movie?tmdb=${currentVideoId}`;
-        if (currentServer === 3) embedUrl = `https://vidsrc.in/embed/movie?tmdb=${currentVideoId}`;
+        if (currentServer === 2) embedUrl = `https://vidsrc.to/embed/movie/${currentVideoId}`;
+        if (currentServer === 3) embedUrl = `https://vidsrc.vip/embed/movie/${currentVideoId}`;
         if (currentServer === 4) embedUrl = `https://player.autoembed.cc/embed/movie/${currentVideoId}`;
       } else {
         if (currentServer === 1) embedUrl = `https://embed.su/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`; 
-        if (currentServer === 2) embedUrl = `https://vidsrc.net/embed/tv?tmdb=${currentVideoId}&season=${currentSeason}&episode=${currentEpisode}`;
-        if (currentServer === 3) embedUrl = `https://vidsrc.in/embed/tv?tmdb=${currentVideoId}&season=${currentSeason}&episode=${currentEpisode}`;
+        if (currentServer === 2) embedUrl = `https://vidsrc.to/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
+        if (currentServer === 3) embedUrl = `https://vidsrc.vip/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
         if (currentServer === 4) embedUrl = `https://player.autoembed.cc/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
       }
 
@@ -436,3 +434,5 @@
   </script>
 </body>
 </html>
+
+            

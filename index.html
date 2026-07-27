@@ -73,7 +73,7 @@
     .movie-title { font-size: 1rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
     .movie-date { font-size: 0.8rem; color: var(--text-muted); }
 
-    /* Modal Player (Over Power Mode) */
+    /* Modal Player */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 9999; justify-content: center; align-items: center; padding: 0; }
     .modal.active { display: flex; animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -87,7 +87,6 @@
     .player-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; flex-shrink: 0; }
     .player-container::before { content: 'Menghubungkan ke Server Premium...'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--text-muted); font-weight: 600; z-index: 1; }
     
-    /* PENTING: referrerpolicy="no-referrer" agar API tidak menolak request */
     .player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 2; background: transparent; }
 
     .server-controls { padding: 20px; background: var(--card-bg); display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
@@ -106,8 +105,6 @@
     .ep-btn { background: #1f2937; color: var(--text-muted); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: 0.2s; }
     .ep-btn:hover { color: #fff; background: #374151; }
     .ep-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-    .alert-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 12px; margin-top: 10px; border-radius: 4px; font-size: 0.85rem; color: #fca5a5; }
 
     .loader { border: 3px solid rgba(255, 255, 255, 0.1); border-top: 3px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 40px auto; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -146,17 +143,17 @@
       <span class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></span>
       
       <div class="player-container">
-        <!-- Keamanan iframe dimaksimalkan untuk bypass CORS -->
+        <!-- API Security Bypass -->
         <iframe id="video-player" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="no-referrer"></iframe>
       </div>
 
       <div class="server-controls">
         <p><i class="fa-solid fa-server" style="color:var(--primary);"></i> Pilih Server (Tahan Banting):</p>
         <div class="server-group">
-          <!-- Server Baru yang Stabil -->
-          <button class="server-btn" id="btn-sv1" onclick="changeServer(1)">Server 1 (MultiEmbed)</button>
-          <button class="server-btn" id="btn-sv2" onclick="changeServer(2)">Server 2 (Embed.su)</button>
-          <button class="server-btn" id="btn-sv3" onclick="changeServer(3)">Server 3 (VidSrc.xyz)</button>
+          <!-- MultiEmbed dibuang, Embed.su dinaikkan jadi Server 1 -->
+          <button class="server-btn" id="btn-sv1" onclick="changeServer(1)">Server 1 (Embed.su)</button>
+          <button class="server-btn" id="btn-sv2" onclick="changeServer(2)">Server 2 (VidSrc Net)</button>
+          <button class="server-btn" id="btn-sv3" onclick="changeServer(3)">Server 3 (VidSrc IN)</button>
           <button class="server-btn" id="btn-sv4" onclick="changeServer(4)">Server 4 (AutoEmbed)</button>
         </div>
 
@@ -167,13 +164,10 @@
           </div>
           <div class="episode-list" id="episode-list"></div>
         </div>
-
-        <div class="alert-box">
-          <i class="fa-solid fa-triangle-exclamation"></i> <strong>Peringatan Penting:</strong> Jika video bertuliskan <em>"This media is unavailable"</em> atau layar hitam, itu karena Anda membuka web ini dari aplikasi <strong>Acode / Localhost</strong>. Buka web ini di browser Chrome asli atau unggah ke GitHub/Vercel agar API mengizinkan pemutaran.
-        </div>
       </div>
     </div>
-      <script>
+  </div>
+    <script>
     // Header Blur Effect
     window.addEventListener('scroll', () => {
       const header = document.getElementById('main-header');
@@ -409,21 +403,18 @@
       let embedUrl = '';
       
       /* 
-       * SERVER LIST OVER POWER
-       * 1. MultiEmbed: Sangat stabil untuk TMDB ID, fallback yang luar biasa.
-       * 2. Embed.su: Pemain veteran, stabil untuk Anime.
-       * 3. VidSrc.xyz: Domain alternatif vidsrc yang lebih jarang kena blokir CORS.
-       * 4. AutoEmbed: Cadangan terbaik.
+       * ENDPOINT MURNI PALING STABIL 2026
+       * Embed.su kini menjadi Server 1 karena paling andal tanpa error 404
        */
       if (currentMediaType === 'movie') {
-        if (currentServer === 1) embedUrl = `https://multiembed.mov/?video_id=${currentVideoId}&tmdb=1`; 
-        if (currentServer === 2) embedUrl = `https://embed.su/embed/movie/${currentVideoId}`;
-        if (currentServer === 3) embedUrl = `https://vidsrc.xyz/embed/movie/${currentVideoId}`;
+        if (currentServer === 1) embedUrl = `https://embed.su/embed/movie/${currentVideoId}`;
+        if (currentServer === 2) embedUrl = `https://vidsrc.net/embed/movie?tmdb=${currentVideoId}`;
+        if (currentServer === 3) embedUrl = `https://vidsrc.in/embed/movie?tmdb=${currentVideoId}`;
         if (currentServer === 4) embedUrl = `https://player.autoembed.cc/embed/movie/${currentVideoId}`;
       } else {
-        if (currentServer === 1) embedUrl = `https://multiembed.mov/?video_id=${currentVideoId}&tmdb=1&s=${currentSeason}&e=${currentEpisode}`;
-        if (currentServer === 2) embedUrl = `https://embed.su/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`; 
-        if (currentServer === 3) embedUrl = `https://vidsrc.xyz/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
+        if (currentServer === 1) embedUrl = `https://embed.su/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`; 
+        if (currentServer === 2) embedUrl = `https://vidsrc.net/embed/tv?tmdb=${currentVideoId}&season=${currentSeason}&episode=${currentEpisode}`;
+        if (currentServer === 3) embedUrl = `https://vidsrc.in/embed/tv?tmdb=${currentVideoId}&season=${currentSeason}&episode=${currentEpisode}`;
         if (currentServer === 4) embedUrl = `https://player.autoembed.cc/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
       }
 
@@ -445,4 +436,3 @@
   </script>
 </body>
 </html>
-          

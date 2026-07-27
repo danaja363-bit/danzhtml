@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stream Danz - Ultimate Streaming Experience</title>
+  <title>Stream Danz - Premium VIP Experience</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
@@ -27,6 +27,7 @@
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
+    /* Header & Nav */
     header {
       position: fixed; width: 100%; top: 0; z-index: 1000;
       background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
@@ -39,17 +40,20 @@
     .nav-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem; font-weight: 600; cursor: pointer; padding: 8px 18px; border-radius: 20px; transition: 0.3s; }
     .nav-btn.active, .nav-btn:hover { color: #fff; background: var(--primary); border-color: var(--primary); box-shadow: 0 0 15px rgba(37, 99, 235, 0.4); }
     
+    /* Search Box */
     .search-box { display: flex; align-items: center; background: rgba(255, 255, 255, 0.05); padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border-color); }
     .search-box:focus-within { border-color: var(--primary); background: rgba(255, 255, 255, 0.08); }
     .search-box input { background: transparent; border: none; outline: none; color: #fff; margin-right: 10px; width: 150px; font-size: 0.85rem; }
     .search-box button { background: none; border: none; color: var(--primary); cursor: pointer; font-size: 1rem; }
 
+    /* Hero Banner */
     .hero { position: relative; height: 70vh; width: 100%; background-size: cover; background-position: center top; display: flex; align-items: flex-end; padding: 60px 5%; margin-bottom: 25px; }
     .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, var(--bg-color) 0%, rgba(3,7,18,0.4) 50%, rgba(3,7,18,0.85) 100%); }
     .hero-content { position: relative; z-index: 10; max-width: 700px; }
     .hero-title { font-size: 2.8rem; font-weight: 800; margin-bottom: 10px; text-shadow: 0 4px 15px rgba(0,0,0,0.8); line-height: 1.1; }
     .hero-desc { font-size: 1rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
 
+    /* Movie Grid & Cards */
     main { padding: 0 5% 60px; }
     .section-title { font-size: 1.3rem; margin-bottom: 20px; font-weight: 700; border-left: 4px solid var(--primary); padding-left: 12px; }
     .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 18px; }
@@ -68,6 +72,7 @@
     .movie-title { font-size: 0.95rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
     .movie-date { font-size: 0.8rem; color: var(--text-muted); }
 
+    /* Modal Player VIP */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.95); z-index: 9999; justify-content: center; align-items: center; padding: 0; }
     .modal.active { display: flex; animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -79,7 +84,8 @@
     .close-btn:hover { background: #ef4444; }
 
     .player-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; flex-shrink: 0; }
-    .player-container::before { content: 'Menghubungkan Server Gacor...'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--text-muted); font-weight: 600; font-size: 0.95rem; z-index: 1; }
+    .player-container::before { content: 'Menghubungkan VIP Proxy Server...'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--text-muted); font-weight: 600; font-size: 0.95rem; z-index: 1; }
+    
     .player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 2; background: transparent; }
 
     .server-controls { padding: 18px 20px; background: var(--card-bg); display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
@@ -98,6 +104,10 @@
     .ep-btn { background: #1e293b; color: var(--text-muted); border: 1px solid var(--border-color); padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: 0.2s; }
     .ep-btn:hover { color: #fff; background: #334155; }
     .ep-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    /* UI Edukasi / Info Box */
+    .info-box { background: rgba(37, 99, 235, 0.1); border-left: 4px solid var(--primary); padding: 12px; margin-top: 5px; border-radius: 6px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+    .info-box strong { color: var(--primary); }
 
     .loader { border: 3px solid rgba(255, 255, 255, 0.1); border-top: 3px solid var(--primary); border-radius: 50%; width: 38px; height: 38px; animation: spin 1s linear infinite; margin: 40px auto; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -122,7 +132,7 @@
   <div class="hero" id="hero-banner" style="background-image: url('https://image.tmdb.org/t/p/original/m2zMgz46f7pA3m0p1zOaA1E1l1r.jpg');">
     <div class="hero-content">
       <h1 class="hero-title" id="hero-title">Memuat Sistem...</h1>
-      <p class="hero-desc" id="hero-desc">Menyiapkan koneksi streaming berkecepatan tinggi...</p>
+      <p class="hero-desc" id="hero-desc">Menyiapkan koneksi streaming kelas VIP berkecepatan tinggi...</p>
     </div>
   </div>
 
@@ -136,16 +146,18 @@
       <span class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></span>
       
       <div class="player-container">
+        <!-- Fitur mutlak anti blokir CORS (referrerpolicy) -->
         <iframe id="video-player" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="no-referrer"></iframe>
       </div>
 
       <div class="server-controls">
         <p><i class="fa-solid fa-server" style="color:var(--primary);"></i> Pilih Server Streaming Utama:</p>
         <div class="server-group">
-          <button class="server-btn active" id="btn-sv1" onclick="changeServer(1)"><i class="fa-solid fa-bolt"></i> VidSrc CC</button>
-          <button class="server-btn" id="btn-sv2" onclick="changeServer(2)"><i class="fa-solid fa-fire"></i> Embed SU</button>
-          <button class="server-btn" id="btn-sv3" onclick="changeServer(3)"><i class="fa-solid fa-satellite-dish"></i> AutoEmbed</button>
-          <button class="server-btn" id="btn-sv4" onclick="changeServer(4)"><i class="fa-solid fa-database"></i> SmashyStream</button>
+          <!-- Server Kelas VIP -->
+          <button class="server-btn active" id="btn-sv1" onclick="changeServer(1)"><i class="fa-solid fa-crown"></i> 2Embed VIP</button>
+          <button class="server-btn" id="btn-sv2" onclick="changeServer(2)"><i class="fa-solid fa-gem"></i> VidSrc VIP</button>
+          <button class="server-btn" id="btn-sv3" onclick="changeServer(3)"><i class="fa-solid fa-infinity"></i> MultiEmbed</button>
+          <button class="server-btn" id="btn-sv4" onclick="changeServer(4)"><i class="fa-solid fa-fire"></i> Embed SU</button>
         </div>
 
         <div class="episodes-container" id="episodes-box">
@@ -155,10 +167,13 @@
           </div>
           <div class="episode-list" id="episode-list"></div>
         </div>
+
+        <div class="info-box">
+          <i class="fa-solid fa-circle-info"></i> <strong>Sistem Multi-Server Aktif:</strong> Apabila layar menunjukkan <em>"404 Not Found"</em> atau video tidak memuat, ini wajar. Cukup klik tombol <strong>Server VIP</strong> lain di atas untuk menemukan koneksi video yang tersedia.
+        </div>
       </div>
     </div>
-            </div>
-            <script>
+      <script>
     window.addEventListener('scroll', () => {
       const header = document.getElementById('main-header');
       if (window.scrollY > 40) header.style.background = 'rgba(3, 7, 18, 0.95)';
@@ -392,24 +407,32 @@
       const player = document.getElementById('video-player');
       let embedUrl = '';
       
+      /* 
+       * JARINGAN VIP PROXY (Gacor Tanpa Batas)
+       * 1. 2Embed: Server sultan yang jarang down.
+       * 2. VidSrc VIP: Endpoint non-iklan/direct.
+       * 3. MultiEmbed Proxy: Rotasi load balancer.
+       * 4. Embed SU: Fallback veteran paling bandel.
+       */
       if (currentMediaType === 'movie') {
-        if (currentServer === 1) embedUrl = `https://vidsrc.cc/v2/embed/movie/${currentVideoId}`;
-        if (currentServer === 2) embedUrl = `https://embed.su/embed/movie/${currentVideoId}`;
-        if (currentServer === 3) embedUrl = `https://player.autoembed.co/embed/movie/${currentVideoId}`;
-        if (currentServer === 4) embedUrl = `https://embed.smashystream.com/playere.php?tmdb=${currentVideoId}`;
+        if (currentServer === 1) embedUrl = `https://www.2embed.cc/embed/${currentVideoId}`;
+        if (currentServer === 2) embedUrl = `https://vidsrc.vip/embed/movie/${currentVideoId}`;
+        if (currentServer === 3) embedUrl = `https://multiembed.mov/?video_id=${currentVideoId}&tmdb=1`;
+        if (currentServer === 4) embedUrl = `https://embed.su/embed/movie/${currentVideoId}`;
       } else {
-        if (currentServer === 1) embedUrl = `https://vidsrc.cc/v2/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`; 
-        if (currentServer === 2) embedUrl = `https://embed.su/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
-        if (currentServer === 3) embedUrl = `https://player.autoembed.co/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
-        if (currentServer === 4) embedUrl = `https://embed.smashystream.com/playere.php?tmdb=${currentVideoId}&season=${currentSeason}&episode=${currentEpisode}`;
+        if (currentServer === 1) embedUrl = `https://www.2embed.cc/embedtv/${currentVideoId}&s=${currentSeason}&e=${currentEpisode}`; 
+        if (currentServer === 2) embedUrl = `https://vidsrc.vip/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
+        if (currentServer === 3) embedUrl = `https://multiembed.mov/?video_id=${currentVideoId}&tmdb=1&s=${currentSeason}&e=${currentEpisode}`;
+        if (currentServer === 4) embedUrl = `https://embed.su/embed/tv/${currentVideoId}/${currentSeason}/${currentEpisode}`;
       }
 
+      // Animasi transisi player untuk UX Premium
       player.style.opacity = '0';
       player.src = embedUrl;
       setTimeout(() => {
         player.style.opacity = '1';
-        player.style.transition = 'opacity 0.5s ease';
-      }, 400);
+        player.style.transition = 'opacity 0.6s ease-in-out';
+      }, 500);
     }
 
     function closeModal() {
@@ -426,5 +449,6 @@
     }
   </script>
 </body>
-  </html>
-  
+</html>
+
+        

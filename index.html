@@ -133,16 +133,16 @@
       
       <div class="player-box">
         <div class="ad-shield" id="adShield" onclick="removeShield()"></div>
-        <iframe id="video-frame" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        <iframe id="video-frame" src="" allowfullscreen allow="autoplay; encrypted-media" referrerpolicy="origin"></iframe>
       </div>
 
       <div class="controls-box">
         <div class="server-list">
-          <p><i class="fa-solid fa-tower-broadcast"></i> Pilih Server Gacor:</p>
+          <p><i class="fa-solid fa-tower-broadcast"></i> Pilih Server Gacor (Clean Subtitle):</p>
           <button class="btn-server active" id="sv1" onclick="setServer(1)">VidSrc ME</button>
           <button class="btn-server" id="sv2" onclick="setServer(2)">Embed SU</button>
-          <button class="btn-server" id="sv3" onclick="setServer(3)">MultiEmbed</button>
-          <button class="btn-server" id="sv4" onclick="setServer(4)">2Embed</button>
+          <button class="btn-server" id="sv3" onclick="setServer(3)">AutoEmbed</button>
+          <button class="btn-server" id="sv4" onclick="setServer(4)">MultiEmbed</button>
         </div>
 
         <div class="episode-section" id="ep-section">
@@ -155,13 +155,13 @@
       </div>
     </div>
   </div>
-  <script>
+    <script>
     const API_KEYS = [
       '8d6d91941230817f7807d643736e8a49', 
       '04c35731a5ee918f014970082a0088b1',
       '284243b566580f146a48a43653199859',
       '3e6a392110bd0ceee096b02a249c5eeb',
-      'e950a41da8093153b47c0b0292bc239f' // Tambahan key baru agar kebal limit
+      'e950a41da8093153b47c0b0292bc239f'
     ];
     let keyIndex = 0;
     function getKey() { return API_KEYS[keyIndex]; }
@@ -177,7 +177,6 @@
 
     const ANIME_FILTER = '&with_original_language=ja&with_genres=16&include_adult=false';
 
-    // Fallback Data Darurat (Jika semua API Key TMDB down/limit, web tetap tampil anime populer)
     const EMERGENCY_FALLBACK = [
       { id: 1429, name: "Attack on Titan", poster_path: "/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg", vote_average: 8.7, first_air_date: "2013-04-07" },
       { id: 85937, name: "Demon Slayer: Kimetsu no Yaiba", poster_path: "/wrCVhL4xHCkVC0rpHlyqndzikZB.jpg", vote_average: 8.7, first_air_date: "2019-04-06" },
@@ -248,7 +247,6 @@
             keyIndex++;
             return fetchData(endpoint, forceMovieFlag, isSearch, retryCount + 1);
           } else {
-            // Jika semua key habis limitnya, gunakan data darurat agar web tidak error
             renderFallbackData(container);
             return;
           }
@@ -291,7 +289,6 @@
       }
     }
 
-    // Render data darurat jika koneksi/API bermasalah
     function renderFallbackData(container) {
       container.innerHTML = '';
       EMERGENCY_FALLBACK.forEach(item => {
@@ -420,16 +417,17 @@
       const iframe = document.getElementById('video-frame');
       let url = '';
       
+      // Menggunakan server VidSrc ME dan Embed SU yang bersih dari gangguan tag format subtitle
       if (isMovie) {
         if (activeServer === 1) url = `https://vidsrc.me/embed/movie?tmdb=${activeId}`;
         if (activeServer === 2) url = `https://embed.su/embed/movie/${activeId}`;
-        if (activeServer === 3) url = `https://multiembed.mov/?video_id=${activeId}&tmdb=1`;
-        if (activeServer === 4) url = `https://www.2embed.cc/embed/${activeId}`;
+        if (activeServer === 3) url = `https://player.autoembed.cc/embed/movie/${activeId}`;
+        if (activeServer === 4) url = `https://multiembed.mov/?video_id=${activeId}&tmdb=1`;
       } else {
         if (activeServer === 1) url = `https://vidsrc.me/embed/tv?tmdb=${activeId}&season=${activeSeason}&episode=${activeEpisode}`;
         if (activeServer === 2) url = `https://embed.su/embed/tv/${activeId}/${activeSeason}/${activeEpisode}`;
-        if (activeServer === 3) url = `https://multiembed.mov/?video_id=${activeId}&tmdb=1&s=${activeSeason}&e=${activeEpisode}`;
-        if (activeServer === 4) url = `https://www.2embed.cc/embedtv/${activeId}&s=${activeSeason}&e=${activeEpisode}`;
+        if (activeServer === 3) url = `https://player.autoembed.cc/embed/tv/${activeId}/${activeSeason}/${activeEpisode}`;
+        if (activeServer === 4) url = `https://multiembed.mov/?video_id=${activeId}&tmdb=1&s=${activeSeason}&e=${activeEpisode}`;
       }
       iframe.src = url;
     }
@@ -441,5 +439,4 @@
     }
   </script>
 </body>
-  </html>
-  
+</html>

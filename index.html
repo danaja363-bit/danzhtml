@@ -139,8 +139,8 @@
       <div class="controls-box">
         <div class="server-list">
           <p><i class="fa-solid fa-tower-broadcast"></i> Pilih Server Gacor:</p>
-          <button class="btn-server active" id="sv1" onclick="setServer(1)">Embed SU</button>
-          <button class="btn-server" id="sv2" onclick="setServer(2)">VidSrc V2</button>
+          <button class="btn-server active" id="sv1" onclick="setServer(1)">VidSrc ME</button>
+          <button class="btn-server" id="sv2" onclick="setServer(2)">Embed SU</button>
           <button class="btn-server" id="sv3" onclick="setServer(3)">AutoEmbed</button>
           <button class="btn-server" id="sv4" onclick="setServer(4)">MultiEmbed</button>
         </div>
@@ -154,7 +154,7 @@
         </div>
       </div>
     </div>
-  </div>
+   </div>
     <script>
     const API_KEYS = [
       '8d6d91941230817f7807d643736e8a49', 
@@ -175,12 +175,12 @@
     let activeSeason = 1;
     let activeEpisode = 1;
 
-    // Daftar Blacklist ID untuk memblokir konten dewasa / SARA secara permanen
-    const BLACKLIST_IDS = [215233, 155551, 126315, 213345, 134179, 116239, 999999]; 
+    // Filter ketat ID dan kata kunci judul yang terindikasi konten dewasa/SARA
+    const BLACKLIST_IDS = [215233, 155551, 126315, 213345, 134179, 116239, 999999, 127532, 125184]; 
+    const FORBIDDEN_KEYWORDS = ['mori no kuma-san', 'shikoku', 'souryo', 'xian', 'adult'];
 
     const ANIME_FILTER = '&with_original_language=ja&with_genres=16&include_adult=false';
 
-    // Daftar Anime Cadangan (Ditambahkan judul anime populer tambahan yang aman)
     const EMERGENCY_FALLBACK = [
       { id: 1429, name: "Attack on Titan", poster_path: "/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg", vote_average: 8.7, first_air_date: "2013-04-07" },
       { id: 85937, name: "Demon Slayer: Kimetsu no Yaiba", poster_path: "/wrCVhL4xHCkVC0rpHlyqndzikZB.jpg", vote_average: 8.7, first_air_date: "2019-04-06" },
@@ -189,8 +189,7 @@
       { id: 95557, name: "Chainsaw Man", poster_path: "/npdB6iiLADomKysWnmuGAmx6RJT.jpg", vote_average: 8.5, first_air_date: "2022-10-12" },
       { id: 125829, name: "Solo Leveling", poster_path: "/geuzteox8m9C0Y9n0p9j5oBStzD.jpg", vote_average: 8.6, first_air_date: "2024-01-07" },
       { id: 65930, name: "My Hero Academia", poster_path: "/phuYuzqjwkbfIU8zUEXXjoVsEBo.jpg", vote_average: 8.5, first_air_date: "2016-04-03" },
-      { id: 46298, name: "Hunter x Hunter", poster_path: "/7WJjFviFBffEJvkAms4uWwbcVUk.jpg", vote_average: 8.7, first_air_date: "2011-10-02" },
-      { id: 31910, name: "Naruto: Shippuden", poster_path: "/zAYRe2bJxpWTVrxxmBc00QkLZ4m.jpg", vote_average: 8.6, first_air_date: "2007-02-15" }
+      { id: 46298, name: "Hunter x Hunter", poster_path: "/7WJjFviFBffEJvkAms4uWwbcVUk.jpg", vote_average: 8.7, first_air_date: "2011-10-02" }
     ];
 
     window.onload = () => {
@@ -267,10 +266,14 @@
 
         data.results.forEach(item => {
           if (item.adult === true) return;
-          if (BLACKLIST_IDS.includes(item.id)) return; // Blokir konten tidak senonoh
+          if (BLACKLIST_IDS.includes(item.id)) return;
+          
+          const title = (item.name || item.title || '').toLowerCase();
+          if (FORBIDDEN_KEYWORDS.some(keyword => title.includes(keyword))) return; // Sensor kata kunci tidak senonoh
+
           if (isSearch && (item.original_language !== 'ja' || !(item.genre_ids && item.genre_ids.includes(16)))) return;
 
-          const title = item.name || item.title;
+          const displayTitle = item.name || item.title;
           const poster = item.poster_path ? `${IMG_URL}${item.poster_path}` : 'https://via.placeholder.com/300x450?text=No+Poster';
           const rating = item.vote_average ? item.vote_average.toFixed(1) : '?';
           const mediaType = forceMovieFlag ? 'movie' : (item.media_type || (item.title ? 'movie' : 'tv'));
@@ -282,12 +285,12 @@
           
           card.innerHTML = `
             <div class="poster-box">
-              <img src="${poster}" alt="${title}" loading="lazy">
+              <img src="${poster}" alt="${displayTitle}" loading="lazy">
               <span class="ep-badge"><i class="fa-solid fa-star"></i> ${rating}</span>
               <span class="type-badge">${mediaType === 'movie' ? 'Movie' : 'TV Series'}</span>
             </div>
             <div class="anime-info">
-              <div class="anime-title">${title}</div>
+              <div class="anime-title">${displayTitle}</div>
               <div class="anime-meta"><span>Jepang</span><span>${year}</span></div>
             </div>`;
           container.appendChild(card);
@@ -425,14 +428,15 @@
       const iframe = document.getElementById('video-frame');
       let url = '';
       
+      // Server utama distabilkan menggunakan VidSrc ME dan Embed SU standar
       if (isMovie) {
-        if (activeServer === 1) url = `https://embed.su/embed/movie/${activeId}`;
-        if (activeServer === 2) url = `https://vidsrc.cc/v2/embed/movie/${activeId}`;
+        if (activeServer === 1) url = `https://vidsrc.me/embed/movie?tmdb=${activeId}`;
+        if (activeServer === 2) url = `https://embed.su/embed/movie/${activeId}`;
         if (activeServer === 3) url = `https://player.autoembed.cc/embed/movie/${activeId}`;
         if (activeServer === 4) url = `https://multiembed.mov/?video_id=${activeId}&tmdb=1`;
       } else {
-        if (activeServer === 1) url = `https://embed.su/embed/tv/${activeId}/${activeSeason}/${activeEpisode}`;
-        if (activeServer === 2) url = `https://vidsrc.cc/v2/embed/tv/${activeId}/${activeSeason}/${activeEpisode}`;
+        if (activeServer === 1) url = `https://vidsrc.me/embed/tv?tmdb=${activeId}&season=${activeSeason}&episode=${activeEpisode}`;
+        if (activeServer === 2) url = `https://embed.su/embed/tv/${activeId}/${activeSeason}/${activeEpisode}`;
         if (activeServer === 3) url = `https://player.autoembed.cc/embed/tv/${activeId}/${activeSeason}/${activeEpisode}`;
         if (activeServer === 4) url = `https://multiembed.mov/?video_id=${activeId}&tmdb=1&s=${activeSeason}&e=${activeEpisode}`;
       }
